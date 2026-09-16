@@ -5,6 +5,11 @@
 
 from collections import Counter
 import re
+import sys
+
+# 1. 나라 인자 받기 (기본값 KR)
+country = sys.argv[1] if len(sys.argv) > 1 else "KR"
+output_file = f"output_{country.lower()}.html"
 
 # 예시 데이터 (실제로는 pytrends/크롤링으로 가져옴)
 titles = [
@@ -36,20 +41,20 @@ def generate_hashtags(text):
     return top10
 
 # HTML 생성
-html_template = """
+html_template = f"""
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>머니네비 최신 이슈</title>
+    <title>머니네비 최신 이슈 ({country})</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h2 { color: #2c3e50; }
-        p { margin: 10px 0; }
-        img { max-width: 600px; display:block; margin:auto; }
-        .source { font-size:12px; text-align:center; color:#555; }
-        .hashtags { font-size:13px; color:#0073e6; margin-top:10px; }
-        hr { margin:30px 0; }
+        body {{ font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }}
+        h2 {{ color: #2c3e50; }}
+        p {{ margin: 10px 0; }}
+        img {{ max-width: 600px; display:block; margin:auto; }}
+        .source {{ font-size:12px; text-align:center; color:#555; }}
+        .hashtags {{ font-size:13px; color:#0073e6; margin-top:10px; }}
+        hr {{ margin:30px 0; }}
     </style>
 </head>
 <body>
@@ -71,7 +76,8 @@ html_template += """
 </html>
 """
 
-with open("output.html", "w", encoding="utf-8") as f:
+# 👉 여기서 나라별 파일명으로 저장
+with open(output_file, "w", encoding="utf-8") as f:
     f.write(html_template)
 
-print("output.html 파일 생성 완료!")
+print(f"{output_file} 파일 생성 완료!")
