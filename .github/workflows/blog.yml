@@ -1,4 +1,4 @@
-name: Generate Blog HTML
+name: Generate Blog HTML (KR + US)
 
 on:
   schedule:
@@ -21,11 +21,16 @@ jobs:
         run: |
           pip install pytrends requests beautifulsoup4
 
-      - name: Run script
-        run: python main.py
+      - name: Run script (South Korea)
+        run: python main.py KR
 
-      - name: Upload artifact
+      - name: Run script (United States)
+        run: python main.py US
+
+      - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: blog-html
-          path: output.html
+          path: |
+            output_kr.html
+            output_us.html
