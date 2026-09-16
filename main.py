@@ -6,7 +6,7 @@
 from collections import Counter
 import re
 
-# 예시 데이터 (실제로는 구글 트렌드 API/크롤링으로 가져옴)
+# 예시 데이터 (실제로는 pytrends/크롤링으로 가져옴)
 titles = [
     "[머니네비] 글로벌 방산 협력 확대 속에서 '팔란티어'가 AI 전략으로 투자자 관심을 모은다",
     "[머니네비] 조선업 가치사슬 재평가 움직임, 사흘 새 2조원 수주한 '한화오션'이 중심에 선다",
@@ -27,14 +27,15 @@ image_urls = [
 
 sources = ["블룸버그", "연합뉴스", "로이터"]
 
-# 간단한 해시태그 생성 함수 (제목+요약에서 키워드 추출 → 상위 10개)
+# 해시태그 자동 생성 함수
 def generate_hashtags(text):
     words = re.findall(r"[가-힣A-Za-z0-9]+", text)
-    common = [w for w in words if len(w) > 2]  # 2글자 이상만
+    common = [w for w in words if len(w) > 2]
     counter = Counter(common)
     top10 = [f"#{w}" for w, _ in counter.most_common(10)]
     return top10
 
+# HTML 생성
 html_template = """
 <!DOCTYPE html>
 <html lang="ko">
