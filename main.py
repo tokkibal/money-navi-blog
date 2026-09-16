@@ -1,9 +1,6 @@
 # main.py
-# 구글 트렌드에서 비즈니스/금융 최신 기사 3개를 가져와 HTML 파일 생성
-# 실제 데이터 수집은 pytrends, requests, BeautifulSoup 등을 활용해야 함
-# 여기서는 구조 예시로 작성
+# 구글 트렌드 기반 최신 기사 3개 + 해시태그 10개 포함 HTML 생성
 
-# 예시 데이터 (실제로는 구글 트렌드 API/크롤링으로 가져옴)
 titles = [
     "[머니네비] 글로벌 방산 협력 확대 속에서 '팔란티어'가 AI 전략으로 투자자 관심을 모은다",
     "[머니네비] 조선업 가치사슬 재평가 움직임, 사흘 새 2조원 수주한 '한화오션'이 중심에 선다",
@@ -22,13 +19,14 @@ image_urls = [
     "https://example.com/anthropic.png"
 ]
 
-sources = [
-    "블룸버그",
-    "연합뉴스",
-    "로이터"
+sources = ["블룸버그", "연합뉴스", "로이터"]
+
+hashtags = [
+    ["#팔란티어", "#AI", "#방산", "#투자", "#글로벌", "#데이터", "#국방", "#기술혁신", "#머니네비", "#트렌드"],
+    ["#한화오션", "#조선업", "#수주", "#가치사슬", "#증시", "#재평가", "#산업", "#투자자", "#머니네비", "#트렌드"],
+    ["#앤트로픽", "#AI", "#투자유치", "#생성형AI", "#시장판도", "#경쟁구도", "#스타트업", "#기술", "#머니네비", "#트렌드"]
 ]
 
-# HTML 전체 구조 (한 포스팅에 3개 기사 묶음)
 html_template = """
 <!DOCTYPE html>
 <html lang="ko">
@@ -41,6 +39,7 @@ html_template = """
         p { margin: 10px 0; }
         img { max-width: 600px; display:block; margin:auto; }
         .source { font-size:12px; text-align:center; color:#555; }
+        .hashtags { font-size:13px; color:#0073e6; margin-top:10px; }
         hr { margin:30px 0; }
     </style>
 </head>
@@ -53,6 +52,7 @@ for i in range(3):
     <p>{summaries[i]}</p>
     <img src="{image_urls[i]}" alt="썸네일 이미지">
     <p class="source">출처: {sources[i]}</p>
+    <p class="hashtags">{' '.join(hashtags[i])}</p>
     <hr>
     """
 
@@ -61,7 +61,6 @@ html_template += """
 </html>
 """
 
-# 파일 저장
 with open("output.html", "w", encoding="utf-8") as f:
     f.write(html_template)
 
